@@ -14,10 +14,10 @@
 <form action="" method="post">
     <div>
         <label>Username:</label>
-        <input type='text' name="Name" id='username'/>
+        <input type='text' name="name"/>
     </div>
     <div>
-        <select size="1" name="roles">
+        <select size="1" name="role">
             <option disabled>Choose role</option>
             <option value="1">patient</option>
             <option value="2">doctor</option>
@@ -26,5 +26,14 @@
     </div>
     <input type="submit" value="Confirm registration">
 </form>
+
+<form action="http://localhost:8080/users">
+    <input type="submit" value="Show all users">
+</form>
+
+<form action="http://localhost:8080/patients">
+    <input type="submit" value="Show all patients">
+</form>
+
 </body>
 </html>

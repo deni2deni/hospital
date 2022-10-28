@@ -1,21 +1,17 @@
 package com.academy.model.entity;
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
 
 @Data
 @Entity
-public class Role {
+public class Diagnosis implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String name;
-    @OneToMany(mappedBy = "role")
-    @ToString.Exclude
-    private List<User> users;
 }
