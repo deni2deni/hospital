@@ -4,14 +4,7 @@
 <head>
     <title>Title</title>
     <style>
-        #outer {
-            width: 100%;
-            text-align: left;
-        }
-
-        .inner {
-            display: inline-block;
-        }
+        <%@include file="styles.css"%>
     </style>
 </head>
 <body>
@@ -22,25 +15,20 @@ Patients:
         <c:out value="${patient.name}"/>
         <div id="outer">
             <div class="inner">
-                <form action="http://localhost:8080/diagnosis">
+                <form action="/diagnosis">
                     <input type="hidden" name="id" value="${patient.id}">
                     <input type="submit" value="Make a diagnosis">
                 </form>
             </div>
+
             <div class="inner">
-                <form action="http://localhost:8080/procedure">
+                <form action="/admission">
                     <input type="hidden" name="id" value="${patient.id}">
-                    <input type="submit" value="Do a procedure">
+                    <input type="submit" onclick="return confirm('Are you sure?')" value="Do a admission">
                 </form>
             </div>
             <div class="inner">
-                <form action="http://localhost:8080/admission">
-                    <input type="hidden" name="id" value="${patient.id}">
-                    <input type="submit" value="Do a admission">
-                </form>
-            </div>
-            <div class="inner">
-                <form action="http://localhost:8080/history">
+                <form action="/history">
                     <input type="hidden" name="id" value="${patient.id}">
                     <input type="submit" value="Show patients history">
                 </form>

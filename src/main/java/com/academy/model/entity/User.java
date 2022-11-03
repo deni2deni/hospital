@@ -23,9 +23,9 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
     @Column
-    private Timestamp admission_date;
+    private Timestamp admissionDate;
     @Column
-    private Timestamp discharge_date;
+    private Timestamp dischargeDate;
     @ManyToOne
     @JoinColumn(name = "final_diagnosis_id")
     private Diagnosis finalDiagnosis;

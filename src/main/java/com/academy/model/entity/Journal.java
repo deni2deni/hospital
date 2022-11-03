@@ -34,7 +34,7 @@ public class Journal {
     @JoinColumn(name = "treatment_id")
     private Treatment treatment;
     @Column
-    private String treatment_status;
+    private String treatmentStatus;
 
     public Journal() {
     }

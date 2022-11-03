@@ -11,4 +11,7 @@ public interface JournalService {
     void save(Journal journal);
 
     List<Journal> findAllByPatientId(Integer id);
+
+    Journal findById(Integer id);
+
 }

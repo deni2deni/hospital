@@ -14,9 +14,9 @@ public class PaymentCard {
     @Column
     private String number;
     @Column
-    private String exp_date;
+    private String expDate;
     @Column
-    private String card_holder_name;
+    private String cardHolderName;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

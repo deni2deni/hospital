@@ -5,6 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-Journal successfully saved!
+Data successfully saved!
 </body>
 </html>

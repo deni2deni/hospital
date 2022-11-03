@@ -16,4 +16,6 @@ public interface UserService {
 
     List<User> findAllByRoleId(Integer roleId);
 
+    void discharge(User user);
+
 }

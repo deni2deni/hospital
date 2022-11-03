@@ -39,12 +39,19 @@ public class UserServiceImpl implements UserService {
                 .role(roleService.findById(role))
                 .status("Active")
                 .name(name)
-                .admission_date(new Timestamp(System.currentTimeMillis()))
+                .admissionDate(new Timestamp(System.currentTimeMillis()))
                 .build();
     }
 
     @Override
     public List<User> findAllByRoleId(Integer roleId) {
         return repository.findAllByRoleIdAndStatus(roleId, UserStatus.ACTIVE.name());
+    }
+
+    @Override
+    public void discharge(User user) {
+        user.setStatus(UserStatus.DISCHARGED.name());
+        user.setDischargeDate(new Timestamp(System.currentTimeMillis()));
+        repository.save(user);
     }
 }

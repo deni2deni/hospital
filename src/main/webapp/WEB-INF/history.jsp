@@ -4,10 +4,7 @@
 <head>
     <title>Title</title>
     <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
+        <%@include file="styles.css"%>
     </style>
 </head>
 <body>
@@ -29,9 +26,30 @@
             <th><c:out value="${journal.diagnosis.name}"/></th>
             <th><c:out value="${journal.treatmentDoctor.name}"/></th>
             <th><c:out value="${journal.treatment.name}"/></th>
-            <th><c:out value="${journal.treatment_status}"/></th>
+            <th><c:out value="${journal.treatmentStatus}"/></th>
+            <th><c:if test="${journal.treatmentStatus == 'SCHEDULED'}">
+                <div>
+                    <form action="/procedure">
+                        <input type="hidden" name="id" value="${journal.id}">
+                        <input type="submit" value="Do a procedure">
+                    </form>
+                </div>
+            </c:if>
+            </th>
         </tr>
     </c:forEach>
 </table>
+<div class="inner">
+    <form action="/admission">
+        <input type="hidden" name="id" value="${patientId}">
+        <input type="submit" value="Do a admission">
+    </form>
+</div>
+<div class="inner">
+    <form action="/patient">
+        <input type="hidden" name="id" value="${patientId}">
+        <input type="submit" value="Show patients page">
+    </form>
+</div>
 </body>
 </html>

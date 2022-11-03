@@ -8,4 +8,6 @@ public interface BillService {
     void save(Bill bill);
 
     int calculateUserBills(User user);
+
+    Bill buildBill(Integer sum, User user);
 }

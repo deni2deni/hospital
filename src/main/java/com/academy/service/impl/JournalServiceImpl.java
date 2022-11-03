@@ -29,7 +29,7 @@ public class JournalServiceImpl implements JournalService {
                 .patient(userService.findById(patientId))
                 .doctor(userService.findById(doctorId))
                 .diagnosis(diagnosisService.findById(diagnosisId))
-                .treatment_status(TreatmentStatus.SCHEDULED.name())
+                .treatmentStatus(TreatmentStatus.SCHEDULED.name())
                 .treatment(treatmentService.findById(treatmentId))
                 .build();
     }
@@ -42,5 +42,10 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public List<Journal> findAllByPatientId(Integer id) {
         return journalRepository.findAllByPatientId(id);
+    }
+
+    @Override
+    public Journal findById(Integer id) {
+        return journalRepository.findById(id).get();
     }
 }

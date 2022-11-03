@@ -1,5 +1,6 @@
 package com.academy.service.impl;
 
+import com.academy.enums.BillStatus;
 import com.academy.model.entity.Bill;
 import com.academy.model.entity.User;
 import com.academy.model.repository.BillRepository;
@@ -22,5 +23,14 @@ public class BillServiceImpl implements BillService {
     @Override
     public int calculateUserBills(User user) {
         return user.getBills().stream().mapToInt(Bill::getSum).sum();
+    }
+
+    @Override
+    public Bill buildBill(Integer sum, User user) {
+        return Bill.builder()
+                .status(BillStatus.NEW.name())
+                .sum(sum)
+                .user(user)
+                .build();
     }
 }

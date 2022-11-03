@@ -9,15 +9,15 @@
     Your diagnosis is: ${user.finalDiagnosis.name} <br>
     Your bill sum is:  ${sum} <br>
 
-    <form action="http://localhost:8080/history">
+    <form action="/history">
         <input type="submit" value="Show treatment history">
     </form>
 
-    <form action="http://localhost:8080/addcard">
+    <form action="/addcard">
         <input type="submit" value="Add credit card">
     </form>
 
-    <form action="http://localhost:8080/bill">
+    <form action="/bill">
         <input type="submit" value="Pay for bills">
     </form>
 

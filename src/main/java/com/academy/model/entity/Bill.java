@@ -1,11 +1,15 @@
 package com.academy.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
 public class Bill {
 
     @Id
@@ -18,4 +22,7 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Bill() {
+    }
 }

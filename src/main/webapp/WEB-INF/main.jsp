@@ -6,15 +6,12 @@
 </head>
 <body>
 <style>
-    label {
-        display: inline-block;
-        width: 100px;
-    }
+    <%@include file="styles.css"%>
 </style>
 <form action="" method="post">
     <div>
         <label>Username:</label>
-        <input type='text' name="name"/>
+        <input type='text' required name="name"/>
     </div>
     <div>
         <select size="1" name="role">
@@ -27,11 +24,11 @@
     <input type="submit" value="Confirm registration">
 </form>
 
-<form action="http://localhost:8080/users">
+<form action="/users">
     <input type="submit" value="Show all users">
 </form>
 
-<form action="http://localhost:8080/patients">
+<form action="/patients">
     <input type="submit" value="Show all patients">
 </form>
 
