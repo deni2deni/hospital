@@ -1,13 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" isELIgnored="false" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-<style>
-    <%@include file="styles.css"%>
-</style>
+<%@include file="common/header.jsp"%>
 <form action="" method="post">
     <div>
         <label>Username:</label>
@@ -24,11 +15,11 @@
     <input type="submit" value="Confirm registration">
 </form>
 
-<form action="/users">
+<form action="<c:url value="/users"/>">
     <input type="submit" value="Show all users">
 </form>
 
-<form action="/patients">
+<form action="<c:url value="/patients"/>">
     <input type="submit" value="Show all patients">
 </form>
 

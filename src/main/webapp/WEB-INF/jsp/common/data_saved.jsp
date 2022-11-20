@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-User successfully created!
+Data successfully saved!
+
+<%@include file="backToHome.jsp"%>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.academy.service;
 
+import com.academy.dto.UserDto;
 import com.academy.model.entity.User;
 
 import java.util.List;
@@ -8,7 +9,7 @@ public interface UserService {
 
     void save(User user);
 
-    List<User> findAll();
+    List<UserDto> findAll();
 
     User findById(Integer id);
 
@@ -16,6 +17,8 @@ public interface UserService {
 
     List<User> findAllByRoleId(Integer roleId);
 
-    void discharge(User user);
+    List<User> findAllByRoleIdAndStatus(Integer roleId, String status);
+
+    void createNewUser(String name, Integer role);
 
 }

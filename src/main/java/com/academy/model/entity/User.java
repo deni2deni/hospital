@@ -1,9 +1,11 @@
 package com.academy.model.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -22,13 +24,6 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
-    @Column
-    private Timestamp admissionDate;
-    @Column
-    private Timestamp dischargeDate;
-    @ManyToOne
-    @JoinColumn(name = "final_diagnosis_id")
-    private Diagnosis finalDiagnosis;
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Bill> bills;

@@ -1,35 +1,27 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" isELIgnored="false" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<head>
-    <title>Title</title>
-    <style>
-        <%@include file="styles.css"%>
-    </style>
-</head>
-<body>
+<%@include file="common/header.jsp"%>
 <table>
     <tr>
         <th>Date</th>
+        <th>Procedure type</th>
         <th>Patient</th>
         <th>Doctor</th>
         <th>Diagnosis</th>
-        <th>Treatment Doctor</th>
         <th>Treatment</th>
         <th>Treatment Status</th>
+        <th></th>
     </tr>
     <c:forEach var="journal" items="${journal}">
         <tr>
             <th><c:out value="${journal.date}"/></th>
-            <th><c:out value="${journal.patient.name}"/></th>
-            <th><c:out value="${journal.doctor.name}"/></th>
-            <th><c:out value="${journal.diagnosis.name}"/></th>
-            <th><c:out value="${journal.treatmentDoctor.name}"/></th>
-            <th><c:out value="${journal.treatment.name}"/></th>
             <th><c:out value="${journal.treatmentStatus}"/></th>
-            <th><c:if test="${journal.treatmentStatus == 'SCHEDULED'}">
+            <th><c:out value="${journal.patientDto.name}"/></th>
+            <th><c:out value="${journal.doctorDto.name}"/></th>
+            <th><c:out value="${journal.diagnosisDto.name}"/></th>
+            <th><c:out value="${journal.treatmentDto.treatmentTypeDto.name}"/></th>
+            <th><c:out value="${journal.treatmentDto.treatmentStatus}"/></th>
+            <th><c:if test="${journal.treatmentDto.treatmentStatus == 'SCHEDULED'}">
                 <div>
-                    <form action="/procedure">
+                    <form action="<c:url value="/procedure"/>">
                         <input type="hidden" name="id" value="${journal.id}">
                         <input type="submit" value="Do a procedure">
                     </form>
@@ -40,16 +32,16 @@
     </c:forEach>
 </table>
 <div class="inner">
-    <form action="/admission">
+    <form action="<c:url value="/admission"/>">
         <input type="hidden" name="id" value="${patientId}">
         <input type="submit" value="Do a admission">
     </form>
 </div>
 <div class="inner">
-    <form action="/patient">
+    <form action="<c:url value="/patient"/>">
         <input type="hidden" name="id" value="${patientId}">
         <input type="submit" value="Show patients page">
     </form>
 </div>
-</body>
-</html>
+<%@include file="common/backToPatients.jsp"%>
+<%@include file="common/footer.jsp"%>

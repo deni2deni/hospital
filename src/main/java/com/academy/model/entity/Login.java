@@ -1,6 +1,7 @@
 package com.academy.model.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -19,5 +20,6 @@ public class Login {
     private String status;
     @OneToOne
     @PrimaryKeyJoinColumn
+    @ToString.Exclude
     private User user;
 }

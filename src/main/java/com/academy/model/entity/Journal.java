@@ -27,10 +27,7 @@ public class Journal {
     @ManyToOne
     @JoinColumn(name = "diagnosis_id")
     private Diagnosis diagnosis;
-    @ManyToOne
-    @JoinColumn(name = "treatment_doctor_user_id")
-    private User treatmentDoctor;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "treatment_id")
     private Treatment treatment;
     @Column

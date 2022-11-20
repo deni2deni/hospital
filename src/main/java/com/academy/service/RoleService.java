@@ -1,7 +1,6 @@
 package com.academy.service;
 
 import com.academy.model.entity.Role;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -1,10 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" isELIgnored="false" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%@include file="common/header.jsp"%>
 Make a diagnosis for patient#${patientId}
 <form action="" method="post">
     <div>
@@ -29,5 +23,5 @@ Make a diagnosis for patient#${patientId}
     <input type="hidden" name="patientId" value="${patientId}">
     <input type="submit" value="Confirm diagnosis">
 </form>
-</body>
-</html>
+<%@include file="common/backToPatients.jsp"%>
+<%@include file="common/footer.jsp"%>

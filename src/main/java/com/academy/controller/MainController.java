@@ -1,9 +1,10 @@
 package com.academy.controller;
 
-import com.academy.model.entity.User;
 import com.academy.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,18 @@ public class MainController {
 
     @PostMapping
     public String createNewUser(@RequestParam String name, @RequestParam Integer role) {
-        User user = userService.buildUser(name, role);
-        userService.save(user);
+        userService.createNewUser(name, role);
         return "user_created";
+    }
+
+    @GetMapping(value = "/test")
+    public String test(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return "redirect:/patients";
+    }
+
+    @GetMapping(value = "/login")
+    public String login(){
+        return "login";
     }
 }
