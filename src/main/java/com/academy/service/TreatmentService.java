@@ -9,4 +9,8 @@ public interface TreatmentService {
     Treatment createNewInstance(Integer treatmentTypeId);
 
     Treatment createDischarge();
+
+    Treatment createAdmission();
+
+    Treatment createPrescription(Integer treatmentTypeId);
 }

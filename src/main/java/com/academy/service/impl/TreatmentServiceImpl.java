@@ -38,4 +38,20 @@ public class TreatmentServiceImpl implements TreatmentService {
                 .treatmentType(treatmentTypeService.findByName("discharge"))
                 .build();
     }
+
+    @Override
+    public Treatment createAdmission() {
+        return Treatment.builder()
+                .treatmentStatus(TreatmentTypeStatus.DONE.name())
+                .treatmentType(treatmentTypeService.findByName("admission"))
+                .build();
+    }
+
+    @Override
+    public Treatment createPrescription(Integer treatmentTypeId) {
+        return Treatment.builder()
+                .treatmentStatus(TreatmentTypeStatus.SCHEDULED.name())
+                .treatmentType(treatmentTypeService.findById(treatmentTypeId))
+                .build();
+    }
 }

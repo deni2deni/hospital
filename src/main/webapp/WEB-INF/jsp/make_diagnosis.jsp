@@ -1,5 +1,5 @@
 <%@include file="common/header.jsp"%>
-Make a diagnosis for patient#${patientId}
+Make a diagnosis for patient#${patientsUsername}
 <form action="" method="post">
     <div>
         <label>Diagnosis:</label>
@@ -13,14 +13,13 @@ Make a diagnosis for patient#${patientId}
         </select>
     </div>
     <div>
-        <select size="1" name="treatmentId">
+        <select size="1" name="treatmentTypeId">
             <option disabled>Choose treatment</option>
             <c:forEach var="treatment" items="${treatments}">
                 <option value="${treatment.id}">${treatment.name}</option>
             </c:forEach>
         </select>
     </div>
-    <input type="hidden" name="patientId" value="${patientId}">
     <input type="submit" value="Confirm diagnosis">
 </form>
 <%@include file="common/backToPatients.jsp"%>

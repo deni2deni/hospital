@@ -21,17 +21,27 @@ public class User {
     private String name;
     @Column
     private String status;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Column
+    private String username;
+    @Column
+    private String password;
+    @Column
+    private boolean enabled;
+    @Column
+    private boolean credentialsNonExpired;
+    @Column
+    private boolean accountNonExpired;
+    @Column
+    private boolean accountNonBlocked;
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Bill> bills;
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<PaymentCard> cards;
-    @OneToOne(mappedBy = "user")
-    private Login login;
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     public User() {
 

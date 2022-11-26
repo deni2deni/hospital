@@ -1,5 +1,6 @@
 package com.academy.service;
 
+import com.academy.dto.JournalCreateDto;
 import com.academy.dto.JournalDto;
 import com.academy.enums.ProcedureStatus;
 import com.academy.model.entity.Journal;
@@ -14,14 +15,20 @@ public interface JournalService {
 
     List<JournalDto> findAllByPatientId(Integer id);
 
+    List<JournalDto> findAllByPatientUsername(String username);
+
     Journal findById(Integer id);
 
-    void saveDiagnosisInJournal(Integer diagnosisId, Integer patientId, Integer treatmentId);
+    void saveDiagnosisInJournal(JournalCreateDto journalCreateDto);
 
     void doProcedure(Integer id, Integer doctorId);
 
     Journal mapToProcedure(Journal journal, Integer doctorId);
 
     void discharge(Integer userId, Integer doctorId, Integer diagnosisId);
+
+    void moveToHospital(String username);
+
+    void saveAdmission(JournalCreateDto journalCreateDto);
 
 }

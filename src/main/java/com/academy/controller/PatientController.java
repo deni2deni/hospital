@@ -1,13 +1,18 @@
 package com.academy.controller;
 
+import com.academy.dto.PaymentCardDto;
 import com.academy.enums.Roles;
 import com.academy.enums.UserStatus;
 import com.academy.service.BillService;
+import com.academy.service.JournalService;
+import com.academy.service.PaymentCardService;
 import com.academy.service.UserService;
+import com.academy.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,34 +22,41 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PatientController {
     private final UserService userService;
     private final BillService billService;
+    private final SecurityUtil securityUtil;
+    private final PaymentCardService paymentCardService;
+    private final JournalService journalService;
 
-    @GetMapping(value = "/patient")
-    public String showPatientPage(@RequestParam Integer id, Model model) {
-        var user = userService.findById(id);
+    @GetMapping(value = "/patientPage")
+    public String showPatientPage(Model model) {
+        var user = userService.findByUsername(securityUtil.getUsername());
         model.addAttribute("user", user);
         model.addAttribute("sum", billService.calculateUserBills(user));
-        return "patient";
+        model.addAttribute("hasNoCard", paymentCardService.hasNoCard(user));
+        return "patientPage";
 
     }
 
-    @GetMapping(value = "/patients")
-    public String showAllPatients(Model model) {
-        ;
-        model.addAttribute("patients", userService.findAllByRoleId(Roles.PATIENT.getRoleId()));
-        model.addAttribute("status", UserStatus.values());
-        return "patients";
-    }
-
-    @PostMapping(value = "/patients/filter")
-    public String showPatientsWithFilter(@RequestParam String filter, Model model) {
-        model.addAttribute("status", UserStatus.values());
-        model.addAttribute("patients", userService.findAllByRoleIdAndStatus(Roles.PATIENT.getRoleId(), filter));
-        return "patients";
-    }
-
-    @GetMapping(value = "/addcard")
-    public String addPaymentCard(@RequestParam Integer id, Model model) {
-        model.addAttribute("userId", id);
+    @GetMapping(value = "/addCard")
+    public String addPaymentCard(Model model) {
+        model.addAttribute("paymentCardDto", new PaymentCardDto());
         return "addCard";
+    }
+
+    @PostMapping(value = "/addCard")
+    public String savePaymentCard(@ModelAttribute PaymentCardDto paymentCardDto, Model model){
+        paymentCardService.save(paymentCardDto);
+        return "redirect:/patientPage";
+    }
+
+    @GetMapping(value = "/moveToHospital")
+    public String moveToHospital(){
+        journalService.moveToHospital(securityUtil.getUsername());
+        return "redirect:/patientPage";
+    }
+
+    @GetMapping(value = "/cancelAdmission")
+    public String cancelAdmission(){
+        userService.cancelAdmission(securityUtil.getUsername());
+        return "redirect:/patientPage";
     }
 }

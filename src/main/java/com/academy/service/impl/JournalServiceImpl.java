@@ -1,5 +1,6 @@
 package com.academy.service.impl;
 
+import com.academy.dto.JournalCreateDto;
 import com.academy.dto.JournalDto;
 import com.academy.enums.ProcedureStatus;
 import com.academy.enums.TreatmentTypeStatus;
@@ -7,12 +8,15 @@ import com.academy.enums.UserStatus;
 import com.academy.mapper.JournalMapper;
 import com.academy.model.entity.Journal;
 import com.academy.model.repository.JournalRepository;
+import com.academy.model.repository.UserRepository;
 import com.academy.service.*;
+import com.academy.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,16 +25,18 @@ import java.util.stream.Collectors;
 public class JournalServiceImpl implements JournalService {
 
     private final UserService userService;
+    private final UserRepository userRepository;
     private final JournalRepository journalRepository;
     private final DiagnosisService diagnosisService;
     private final TreatmentService treatmentService;
     private final BillService billService;
     private final JournalMapper journalMapper;
+    private final SecurityUtil securityUtil;
 
     @Override
     public Journal buildJournal(Integer patientId, Integer doctorId, Integer diagnosisId, Integer treatmentTypeId, ProcedureStatus status) {
         return Journal.builder()
-                .date(new Timestamp(System.currentTimeMillis()))
+                .date(new Timestamp(System.currentTimeMillis()).toInstant())
                 .patient(userService.findById(patientId))
                 .doctor(userService.findById(doctorId))
                 .diagnosis(diagnosisService.findById(diagnosisId))
@@ -47,10 +53,17 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalDto> findAllByPatientId(Integer id) {
-        return journalRepository.findAllByPatientId(id)
+         var a = journalRepository.findAllByPatientId(id)
                 .stream()
                 .map(journalMapper::toDto)
                 .collect(Collectors.toList());
+        return a;
+    }
+
+    @Override
+    public List<JournalDto> findAllByPatientUsername(String username) {
+        var user = userService.findByUsername(username);
+        return findAllByPatientId(user.getId());
     }
 
     @Override
@@ -60,11 +73,16 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     @Transactional
-    public void saveDiagnosisInJournal(Integer diagnosisId, Integer patientId, Integer treatmentTypeId) {
-        var newJournal = buildJournal(patientId, 9, diagnosisId, treatmentTypeId, ProcedureStatus.PRESCRIPTION); //TODO need to change doctorId!!!
-        var user = newJournal.getPatient();
+    public void saveDiagnosisInJournal(JournalCreateDto journalCreateDto) {
+        var newJournal = Journal.builder()
+                .date(new Timestamp(System.currentTimeMillis()).toInstant())
+                .patient(userRepository.findByUsername(journalCreateDto.getPatientsUsername()))
+                .doctor(userRepository.findByUsername(securityUtil.getUsername()))
+                .diagnosis(diagnosisService.findById(journalCreateDto.getDiagnosisId()))
+                .treatmentStatus(ProcedureStatus.PRESCRIPTION.name())
+                .treatment(treatmentService.createPrescription(journalCreateDto.getTreatmentTypeId()))
+                .build();
         save(newJournal);
-        userService.save(user);
     }
 
     @Override
@@ -81,7 +99,7 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public Journal mapToProcedure(Journal journal, Integer doctorId) {
         return Journal.builder()
-                .date(new Timestamp(System.currentTimeMillis()))
+                .date(new Timestamp(System.currentTimeMillis()).toInstant())
                 .patient(journal.getPatient())
                 .doctor(userService.findById(doctorId))
                 .diagnosis(journal.getDiagnosis())
@@ -93,11 +111,36 @@ public class JournalServiceImpl implements JournalService {
     @Override
     @Transactional
     public void discharge(Integer userId, Integer doctorId, Integer diagnosisId) {
-        var user =userService.findById(userId);
+        var user = userService.findById(userId);
         user.setStatus(UserStatus.DISCHARGED.name());
         var journal = buildJournal(user.getId(), doctorId, diagnosisId, null, ProcedureStatus.DISCHARGE);
         journal.setTreatment(treatmentService.createDischarge());
         userService.save(user);
         save(journal);
+    }
+
+    @Override
+    @Transactional
+    public void moveToHospital(String username) {
+        var user = userRepository.findByUsername(username);
+        user.setStatus(UserStatus.WAITING_FOR_ADMISSION.name());
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void saveAdmission(JournalCreateDto journalCreateDto) {
+        var patient = userRepository.findByUsername(journalCreateDto.getPatientsUsername());
+        patient.setStatus(UserStatus.ACTIVE.name());
+        userRepository.save(patient);
+        var journal = Journal.builder()
+                .date(new Timestamp(System.currentTimeMillis()).toInstant())
+                .patient(patient)
+                .doctor(userRepository.findByUsername(securityUtil.getUsername()))
+                .diagnosis(diagnosisService.findById(journalCreateDto.getDiagnosisId()))
+                .treatmentStatus(ProcedureStatus.ADMISSION.name())
+                .treatment(treatmentService.createAdmission())
+                .build();
+        journalRepository.save(journal);
     }
 }

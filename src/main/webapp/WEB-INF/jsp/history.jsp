@@ -12,7 +12,7 @@
     </tr>
     <c:forEach var="journal" items="${journal}">
         <tr>
-            <th><c:out value="${journal.date}"/></th>
+            <th><c:out value="${formatter.format(journal.date)}"/></th>
             <th><c:out value="${journal.treatmentStatus}"/></th>
             <th><c:out value="${journal.patientDto.name}"/></th>
             <th><c:out value="${journal.doctorDto.name}"/></th>
@@ -20,28 +20,20 @@
             <th><c:out value="${journal.treatmentDto.treatmentTypeDto.name}"/></th>
             <th><c:out value="${journal.treatmentDto.treatmentStatus}"/></th>
             <th><c:if test="${journal.treatmentDto.treatmentStatus == 'SCHEDULED'}">
-                <div>
-                    <form action="<c:url value="/procedure"/>">
-                        <input type="hidden" name="id" value="${journal.id}">
-                        <input type="submit" value="Do a procedure">
-                    </form>
-                </div>
+               <sec:authorize access="hasAnyRole('DOCTOR','NURSE')">
+                   <div>
+                        <form action="<c:url value="/procedure"/>">
+                            <input type="hidden" name="id" value="${journal.id}">
+                            <input type="submit" value="Do a procedure">
+                        </form>
+                    </div>
+               </sec:authorize>
             </c:if>
             </th>
         </tr>
     </c:forEach>
 </table>
-<div class="inner">
-    <form action="<c:url value="/admission"/>">
-        <input type="hidden" name="id" value="${patientId}">
-        <input type="submit" value="Do a admission">
-    </form>
-</div>
-<div class="inner">
-    <form action="<c:url value="/patient"/>">
-        <input type="hidden" name="id" value="${patientId}">
-        <input type="submit" value="Show patients page">
-    </form>
-</div>
-<%@include file="common/backToPatients.jsp"%>
+<sec:authorize access="hasAnyRole('DOCTOR','NURSE')">
+    <%@include file="common/backToPatients.jsp"%>
+</sec:authorize>
 <%@include file="common/footer.jsp"%>

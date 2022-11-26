@@ -6,6 +6,8 @@ import lombok.Getter;
 public enum UserStatus {
     ACTIVE,
     DELETED,
-    DISCHARGED;
+    DISCHARGED,
+    NEW,
+    WAITING_FOR_ADMISSION
 
 }

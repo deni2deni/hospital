@@ -3,9 +3,9 @@ package com.academy.dto;
 import lombok.Data;
 
 @Data
-public class UserDto {
-    private Integer id;
+public class UserCreateDto {
     private String name;
-    private String status;
     private String username;
+    private String password;
+    private String role;
 }

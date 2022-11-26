@@ -3,11 +3,12 @@ package com.academy.dto;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Data
 public class JournalDto {
     private Integer id;
-    private Timestamp date;
+    private Instant date;
     private String treatmentStatus;
     private UserDto patientDto;
     private UserDto doctorDto;

@@ -1,9 +1,11 @@
 package com.academy.service.impl;
 
+import com.academy.dto.UserDto;
 import com.academy.enums.BillStatus;
 import com.academy.model.entity.Bill;
 import com.academy.model.entity.User;
 import com.academy.model.repository.BillRepository;
+import com.academy.model.repository.UserRepository;
 import com.academy.service.BillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BillServiceImpl implements BillService {
 
     private final BillRepository repository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -23,8 +26,8 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public int calculateUserBills(User user) {
-        return user.getBills().stream().mapToInt(Bill::getSum).sum();
+    public int calculateUserBills(UserDto userDto) {
+        return userRepository.findByUsername(userDto.getUsername()).getBills().stream().mapToInt(Bill::getSum).sum();
     }
 
     @Override

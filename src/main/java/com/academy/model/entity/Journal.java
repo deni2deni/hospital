@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Data
 @Entity
@@ -17,7 +18,7 @@ public class Journal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
-    private Timestamp date;
+    private Instant date;
     @ManyToOne
     @JoinColumn(name = "patient_user_id")
     private User patient;
