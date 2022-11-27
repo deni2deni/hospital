@@ -15,13 +15,13 @@ public class ProcedureController {
 
     @GetMapping(value = "/procedure")
     public String doProcedure(@RequestParam Integer id, Model model) {
-        journalService.doProcedure(id, 9); //TODO change doctor id
-        return "procedure";
+        journalService.doProcedure(id);
+        return "redirect:/doctorPage";
     }
 
-    @GetMapping(value = "/admission")
-    public String doAdmission(@RequestParam Integer id){
-        journalService.discharge(id, 9, 1); //TODO change doctor id & diagnosis id
-        return "data_saved";
+    @GetMapping(value = "/discharge")
+    public String doDischarge(@RequestParam String patientsUsername){
+        journalService.discharge(patientsUsername);
+        return "redirect:/doctorPage";
     }
 }

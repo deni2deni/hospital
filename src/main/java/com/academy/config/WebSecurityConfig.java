@@ -32,13 +32,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/redirect").hasAnyRole("USER","ADMIN","NURSE","DOCTOR")
                 .antMatchers("/").hasAnyRole("USER","ADMIN","NURSE","DOCTOR")
+                .antMatchers("/adminPage").hasRole("ADMIN")
+                .antMatchers("/showDiagnosis").hasRole("ADMIN")
                 .antMatchers("/registration").permitAll()
+                .antMatchers("/addDiagnosis").hasRole("ADMIN")
                 .antMatchers("/patientPage").hasRole("USER")
                 .antMatchers("/myHistory").hasRole("USER")
                 .antMatchers("/addCard").hasRole("USER")
                 .antMatchers("/doctorPage").hasAnyRole("NURSE","DOCTOR")
                 .antMatchers("/admissionConfirm").hasRole("DOCTOR")
+                .antMatchers("/discharge").hasRole("DOCTOR")
                 .antMatchers("/patients").hasAnyRole("NURSE","DOCTOR")
+                .antMatchers("/bill").hasRole("USER")
                 .and()
                 .csrf().disable();
     }

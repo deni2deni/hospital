@@ -27,12 +27,13 @@
     <c:if test="${hasNoCard}">
         Please add payment card to pay for bills.
     </c:if>
-    <form action="<c:url value="/addCard"/>">
-        <input type="submit" value="Add credit card">
-    </form>
-
-    <form action="<c:url value="/bill"/>">
-        <input type="submit" value="Pay for bills">
-    </form>
+        <form action="<c:url value="/addCard"/>">
+            <input type="submit" value="Add credit card">
+        </form>
+    <c:if test="${!hasNoCard && sum > 0}">
+        <form action="<c:url value="/bill"/>">
+            <input type="submit" value="Pay for bills">
+        </form>
+    </c:if>
 </body>
 </html>

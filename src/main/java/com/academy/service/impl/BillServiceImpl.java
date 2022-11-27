@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 
@@ -27,7 +29,10 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public int calculateUserBills(UserDto userDto) {
-        return userRepository.findByUsername(userDto.getUsername()).getBills().stream().mapToInt(Bill::getSum).sum();
+        return userRepository.findByUsername(userDto.getUsername()).getBills().stream()
+                .filter(bill -> bill.getStatus().equals(BillStatus.NEW.name()))
+                .mapToInt(Bill::getSum)
+                .sum();
     }
 
     @Override
@@ -37,5 +42,21 @@ public class BillServiceImpl implements BillService {
                 .sum(sum)
                 .user(user)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void payForBills(String username) {
+        var user = userRepository.findByUsername(username);
+        if (!user.getCards().isEmpty()){
+            var bills = user.getBills()
+                    .stream()
+                    .filter(bill -> bill.getStatus().equals(BillStatus.NEW.name()))
+                    .peek(bill -> bill.setStatus(BillStatus.PAYED.name()))
+                    .collect(Collectors.toList());
+            user.setBills(bills);
+            userRepository.save(user);
+        }
+
     }
 }

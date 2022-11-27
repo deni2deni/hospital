@@ -1,8 +1,6 @@
 package com.academy.controller;
 
 import com.academy.dto.PaymentCardDto;
-import com.academy.enums.Roles;
-import com.academy.enums.UserStatus;
 import com.academy.service.BillService;
 import com.academy.service.JournalService;
 import com.academy.service.PaymentCardService;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -57,6 +54,12 @@ public class PatientController {
     @GetMapping(value = "/cancelAdmission")
     public String cancelAdmission(){
         userService.cancelAdmission(securityUtil.getUsername());
+        return "redirect:/patientPage";
+    }
+
+    @GetMapping(value = "/bill")
+    public String payForBills(){
+        billService.payForBills(securityUtil.getUsername());
         return "redirect:/patientPage";
     }
 }

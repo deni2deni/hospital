@@ -19,17 +19,34 @@
             <th><c:out value="${journal.diagnosisDto.name}"/></th>
             <th><c:out value="${journal.treatmentDto.treatmentTypeDto.name}"/></th>
             <th><c:out value="${journal.treatmentDto.treatmentStatus}"/></th>
-            <th><c:if test="${journal.treatmentDto.treatmentStatus == 'SCHEDULED'}">
                <sec:authorize access="hasAnyRole('DOCTOR','NURSE')">
-                   <div>
-                        <form action="<c:url value="/procedure"/>">
-                            <input type="hidden" name="id" value="${journal.id}">
-                            <input type="submit" value="Do a procedure">
-                        </form>
-                    </div>
+                   <c:if test="${journal.treatmentDto.treatmentStatus == 'SCHEDULED'}">
+                       <c:choose>
+                           <c:when test="${journal.treatmentDto.treatmentTypeDto.name != 'surgeon'}">
+                               <th>
+                                   <div>
+                                        <form action="<c:url value="/procedure"/>">
+                                            <input type="hidden" name="id" value="${journal.id}">
+                                            <input type="submit" value="Do a procedure">
+                                        </form>
+                                   </div>
+                               </th>
+                           </c:when>
+                           <c:otherwise>
+                               <sec:authorize access="hasRole('DOCTOR')">
+                                   <th>
+                                       <div>
+                                           <form action="<c:url value="/procedure"/>">
+                                               <input type="hidden" name="id" value="${journal.id}">
+                                               <input type="submit" value="Do a procedure">
+                                           </form>
+                                       </div>
+                                   </th>
+                               </sec:authorize>
+                           </c:otherwise>
+                       </c:choose>
+                   </c:if>
                </sec:authorize>
-            </c:if>
-            </th>
         </tr>
     </c:forEach>
 </table>

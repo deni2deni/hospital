@@ -21,11 +21,11 @@ public interface JournalService {
 
     void saveDiagnosisInJournal(JournalCreateDto journalCreateDto);
 
-    void doProcedure(Integer id, Integer doctorId);
+    void doProcedure(Integer id);
 
-    Journal mapToProcedure(Journal journal, Integer doctorId);
+    Journal mapToProcedure(Journal journal);
 
-    void discharge(Integer userId, Integer doctorId, Integer diagnosisId);
+    void discharge(String username);
 
     void moveToHospital(String username);
 

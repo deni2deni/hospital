@@ -6,7 +6,12 @@ Registration:
     <br>
     <label>Name:</label><input type="text" name="name" required>
     <sec:authorize access="hasRole('ADMIN')">
-        <label>Role:</label><input type="text" name="role" value="ROLE_USER">
+        <label>Role:</label>
+        <select name="role">
+            <c:forEach items="${roles}" var="role">
+                <option value="${role}">${role.name()}</option>
+            </c:forEach>
+        </select>
     </sec:authorize>
     <br>
     <input type="submit" value="Register">

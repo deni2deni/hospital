@@ -6,6 +6,7 @@ import com.academy.model.entity.Diagnosis;
 import com.academy.model.repository.DiagnosisRepository;
 import com.academy.service.DiagnosisService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public List<DiagnosisDto> findAllDiagnosis() {
-        return diagnosisRepository.findAll()
+        return diagnosisRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(diagnosisMapper::toDto)
                 .collect(Collectors.toList());
@@ -29,6 +30,16 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     @Override
     public Diagnosis findById(Integer id) {
         return diagnosisRepository.findById(id).get();
+    }
+
+    @Override
+    public Diagnosis findByName(String name) {
+        return diagnosisRepository.findByName(name);
+    }
+
+    @Override
+    public void save(DiagnosisDto diagnosisDto) {
+        diagnosisRepository.save(diagnosisMapper.toEntity(diagnosisDto));
     }
 
 }

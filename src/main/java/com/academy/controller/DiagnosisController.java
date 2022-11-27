@@ -32,6 +32,6 @@ public class DiagnosisController {
     @PostMapping(value = "/diagnosis")
     public String saveDiagnosisInJournal(@ModelAttribute JournalCreateDto journalCreateDto, Model model) {
         journalService.saveDiagnosisInJournal(journalCreateDto);
-        return "data_saved";
+        return "redirect:/doctorPage";
     }
 }

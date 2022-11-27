@@ -91,8 +91,10 @@ public class UserServiceImpl implements UserService {
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
         user.setStatus(UserStatus.NEW.name());
-        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+        if (userCreateDto.getRole() == null) {
             user.setRoles(Collections.singletonList(Role.ROLE_USER));
+        } else {
+            user.setRoles(Collections.singletonList(userCreateDto.getRole()));
         }
         user.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
         save(user);

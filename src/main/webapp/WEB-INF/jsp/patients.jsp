@@ -19,6 +19,7 @@
                 <c:out value="${patient.name}"/>
                 Status is : <c:out value="${patient.status}"/>
                 <br>
+                    <sec:authorize access="hasRole('DOCTOR')">
                     <c:if test="${patient.status == 'ACTIVE'}">
                         <div id="outer">
                             <div class="inner">
@@ -30,11 +31,12 @@
 
                         <div class="inner">
                             <form action="<c:url value="/discharge"/>">
-                                <input type="hidden" name="id" value="${patient.id}">
+                                <input type="hidden" name="patientsUsername" value="${patient.username}">
                                 <input type="submit" onclick="return confirm('Are you sure?')" value="Do a discharge">
                             </form>
                         </div>
                     </c:if>
+                    </sec:authorize>
                     <div class="inner">
                         <form action="<c:url value="/history"/>">
                             <input type="hidden" name="id" value="${patient.id}">

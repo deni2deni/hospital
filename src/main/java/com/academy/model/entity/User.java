@@ -36,7 +36,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Bill> bills;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<PaymentCard> cards;
     @Enumerated(EnumType.STRING)

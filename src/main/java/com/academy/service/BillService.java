@@ -11,4 +11,6 @@ public interface BillService {
     int calculateUserBills(UserDto userDto);
 
     Bill buildBill(Integer sum, User user);
+
+    void payForBills(String username);
 }

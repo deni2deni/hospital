@@ -6,6 +6,7 @@ import com.academy.model.entity.TreatmentType;
 import com.academy.model.repository.TreatmentTypeRepository;
 import com.academy.service.TreatmentTypeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +21,13 @@ public class TreatmentTypeServiceImpl implements TreatmentTypeService {
 
     @Override
     public List<TreatmentTypeDto> findAllTreatments() {
-        return treatmentTypeRepository.findAll()
+        var treatments = treatmentTypeRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(treatmentTypeMapper::toDto)
                 .collect(Collectors.toList());
+        treatments.removeIf(treatmentTypeDto -> treatmentTypeDto.getName().equalsIgnoreCase("admission") ||
+                treatmentTypeDto.getName().equalsIgnoreCase("discharge"));
+        return treatments;
     }
 
     @Override

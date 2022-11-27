@@ -29,29 +29,34 @@ public class MainController {
     }
 
     @GetMapping(value = "/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @GetMapping(value = "/registration")
-    public String showRegistrationPage(Model model){
+    public String showRegistrationPage(Model model) {
         model.addAttribute("userCreateDto", new UserCreateDto());
+        model.addAttribute("roles", Role.values());
         return "registration";
     }
 
     @PostMapping(value = "/registration")
-    public String registerUser(@ModelAttribute UserCreateDto userCreateDto, Model model){
+    public String registerUser(@ModelAttribute UserCreateDto userCreateDto, Model model) {
         userService.registerUser(userCreateDto);
-        return "registration";
+        return "redirect:/redirect";
     }
 
     @GetMapping(value = "/redirect")
-    public String redirect(){
-        if (securityUtil.hasRole(Role.ROLE_USER)){
+    public String redirect() {
+        if (securityUtil.hasRole(Role.ROLE_USER)) {
             return "redirect:/patientPage";
         }
-        if ((securityUtil.hasRole(Role.ROLE_NURSE)) || securityUtil.hasRole(Role.ROLE_DOCTOR)){
+        if ((securityUtil.hasRole(Role.ROLE_NURSE)) || securityUtil.hasRole(Role.ROLE_DOCTOR)) {
             return "redirect:/doctorPage";
+        }
+
+        if (securityUtil.hasRole(Role.ROLE_ADMIN)) {
+            return "redirect:/adminPage";
         }
         return "/error";
     }

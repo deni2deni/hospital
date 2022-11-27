@@ -11,4 +11,8 @@ public interface DiagnosisService {
 
     Diagnosis findById(Integer id);
 
+    Diagnosis findByName(String name);
+
+    void save(DiagnosisDto diagnosisDto);
+
 }

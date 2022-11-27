@@ -5,8 +5,10 @@ import com.academy.dto.JournalDto;
 import com.academy.enums.ProcedureStatus;
 import com.academy.enums.TreatmentTypeStatus;
 import com.academy.enums.UserStatus;
+import com.academy.exception.ForbiddenProcedureException;
 import com.academy.mapper.JournalMapper;
 import com.academy.model.entity.Journal;
+import com.academy.model.entity.Role;
 import com.academy.model.repository.JournalRepository;
 import com.academy.model.repository.UserRepository;
 import com.academy.service.*;
@@ -87,9 +89,12 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     @Transactional
-    public void doProcedure(Integer id, Integer doctorId) {
+    public void doProcedure(Integer id) {
         var journal = findById(id);
-        var newJournal = mapToProcedure(journal, 9); //TODO need to change doctorID!!!!
+        if (journal.getTreatment().getTreatmentType().getName().equalsIgnoreCase("surgeon") && securityUtil.hasRole(Role.ROLE_NURSE)){
+            throw new ForbiddenProcedureException();
+        }
+        var newJournal = mapToProcedure(journal);
         newJournal.getTreatment().setTreatmentStatus(TreatmentTypeStatus.DONE.name());
         save(newJournal);
         var bill = billService.buildBill(newJournal.getTreatment().getTreatmentType().getPrice(), newJournal.getPatient());
@@ -97,11 +102,11 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
-    public Journal mapToProcedure(Journal journal, Integer doctorId) {
+    public Journal mapToProcedure(Journal journal) {
         return Journal.builder()
                 .date(new Timestamp(System.currentTimeMillis()).toInstant())
                 .patient(journal.getPatient())
-                .doctor(userService.findById(doctorId))
+                .doctor(userRepository.findByUsername(securityUtil.getUsername()))
                 .diagnosis(journal.getDiagnosis())
                 .treatmentStatus(ProcedureStatus.PROCEDURE.name())
                 .treatment(journal.getTreatment())
@@ -110,11 +115,17 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     @Transactional
-    public void discharge(Integer userId, Integer doctorId, Integer diagnosisId) {
-        var user = userService.findById(userId);
+    public void discharge(String username) {
+        var user = userRepository.findByUsername(username);
         user.setStatus(UserStatus.DISCHARGED.name());
-        var journal = buildJournal(user.getId(), doctorId, diagnosisId, null, ProcedureStatus.DISCHARGE);
-        journal.setTreatment(treatmentService.createDischarge());
+        var journal = Journal.builder()
+                .date(new Timestamp(System.currentTimeMillis()).toInstant())
+                .patient(user)
+                .doctor(userRepository.findByUsername(securityUtil.getUsername()))
+                .diagnosis(diagnosisService.findByName("recovered"))
+                .treatmentStatus(ProcedureStatus.DISCHARGE.name())
+                .treatment(treatmentService.createDischarge())
+                .build();
         userService.save(user);
         save(journal);
     }
