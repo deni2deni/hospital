@@ -5,13 +5,13 @@ import com.academy.enums.BillStatus;
 import com.academy.model.entity.Bill;
 import com.academy.model.entity.PaymentCard;
 import com.academy.model.entity.User;
-import com.academy.model.repository.BillRepository;
 import com.academy.model.repository.UserRepository;
 import com.academy.service.BillService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -21,19 +21,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @RequiredArgsConstructor
-class BillServiceImplTest {
+public class BillServiceImplTest {
 
     @MockBean
-    private BillRepository repository;
-    @MockBean
     private UserRepository userRepository;
+    @Autowired
     private BillService billService;
     private UserDto userDto;
     private User user;
 
     @BeforeEach
     void setUp() {
-        billService = new BillServiceImpl(repository, userRepository);
         userDto = new UserDto();
         userDto.setName("test");
         Bill bill = new Bill();

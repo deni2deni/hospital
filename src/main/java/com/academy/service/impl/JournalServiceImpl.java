@@ -55,11 +55,10 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalDto> findAllByPatientId(Integer id) {
-         var a = journalRepository.findAllByPatientId(id)
-                .stream()
-                .map(journalMapper::toDto)
-                .collect(Collectors.toList());
-        return a;
+        return journalRepository.findAllByPatientId(id)
+               .stream()
+               .map(journalMapper::toDto)
+               .collect(Collectors.toList());
     }
 
     @Override
