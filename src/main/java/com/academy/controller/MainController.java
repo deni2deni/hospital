@@ -23,11 +23,6 @@ public class MainController {
     private final UserService userService;
     private final SecurityUtil securityUtil;
 
-    @GetMapping
-    public String userCreation(Model model) {
-        return "main";
-    }
-
     @GetMapping(value = "/login")
     public String login() {
         return "login";

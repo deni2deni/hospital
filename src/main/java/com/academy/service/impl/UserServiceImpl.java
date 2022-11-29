@@ -50,14 +50,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User buildUser(String name, Integer role) {
-        return User.builder()
-                .status("Active")
-                .name(name)
-                .build();
-    }
-
-    @Override
     public List<UserDto> findAllByRole(Role role) {
         return repository.findAllByRoles(role)
                 .stream()
@@ -71,13 +63,6 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public void createNewUser(String name, Integer role) {
-        User user = buildUser(name, role);
-        save(user);
     }
 
     @Override

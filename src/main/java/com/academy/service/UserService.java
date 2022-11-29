@@ -15,13 +15,9 @@ public interface UserService {
 
     User findById(Integer id);
 
-    User buildUser(String name, Integer role);
-
     List<UserDto> findAllByRole(Role role);
 
     List<UserDto> findAllByRoleAndStatus(Role role, String status);
-
-    void createNewUser(String name, Integer role);
 
     void registerUser(UserCreateDto userCreateDto);
 
