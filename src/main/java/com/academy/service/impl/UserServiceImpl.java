@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public void registerUser(UserCreateDto userCreateDto) {
         User user = userCreateMapper.toEntity(userCreateDto);
         if (repository.existsByUsername(user.getUsername())) {
-            throw new UserExistException();
+            throw new UserExistException("User with this username already exist!");
         }
         user.setEnabled(true);
         user.setAccountNonBlocked(true);

@@ -16,7 +16,6 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <sec:authorize access="!isAuthenticated()"><li class="nav-item"><a class="nav-link active" aria-current="page" href="<c:url value="/login"/>">Login</a></li></sec:authorize>
                 <sec:authorize access="isAuthenticated()"><li class="nav-item"><a class="nav-link" href="<c:url value="/logout"/>">Logout</a></li></sec:authorize>
-                <sec:authorize access="isAuthenticated()"> <li class="nav-item"><a class="nav-link" href="#">Profile</a></li></sec:authorize>
             </ul>
         </div>
     </div>

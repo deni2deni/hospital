@@ -28,7 +28,7 @@ public class PaymentCardServiceImpl implements PaymentCardService {
     @Override
     public void save(PaymentCardDto paymentCardDto) {
         if (paymentCardRepository.existsByNumber(paymentCardDto.getNumber())) {
-            throw new PaymentCardExistException();
+            throw new PaymentCardExistException("This payment card already exist!");
         }
         var paymentCard = paymentCardMapper.toEntity(paymentCardDto);
         paymentCard.setUser(userRepository.findByUsername(securityUtil.getUsername()));

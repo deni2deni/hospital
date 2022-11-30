@@ -91,7 +91,7 @@ public class JournalServiceImpl implements JournalService {
     public void doProcedure(Integer id) {
         var journal = findById(id);
         if (journal.getTreatment().getTreatmentType().getName().equalsIgnoreCase("surgeon") && securityUtil.hasRole(Role.ROLE_NURSE)){
-            throw new ForbiddenProcedureException();
+            throw new ForbiddenProcedureException("Nurse can't do this procedure!");
         }
         var newJournal = mapToProcedure(journal);
         newJournal.getTreatment().setTreatmentStatus(TreatmentTypeStatus.DONE.name());
