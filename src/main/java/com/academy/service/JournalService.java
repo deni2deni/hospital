@@ -25,7 +25,7 @@ public interface JournalService {
 
     Journal mapToProcedure(Journal journal);
 
-    void discharge(String username);
+    void discharge(String username, String diagnosisName);
 
     void moveToHospital(String username);
 

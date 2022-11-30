@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/doctorPage").hasAnyRole("NURSE","DOCTOR")
                 .antMatchers("/admissionConfirm").hasRole("DOCTOR")
                 .antMatchers("/discharge").hasRole("DOCTOR")
+                .antMatchers("/finalDiagnosis").hasRole("DOCTOR")
                 .antMatchers("/patients").hasAnyRole("NURSE","DOCTOR")
                 .antMatchers("/bill").hasRole("USER")
                 .and()

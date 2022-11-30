@@ -34,7 +34,7 @@ class ProcedureControllerTest {
 
     @Test
     void doDischarge() throws Exception {
-        Mockito.doNothing().when(journalService).discharge(Mockito.isA(String.class));
+        Mockito.doNothing().when(journalService).discharge(Mockito.isA(String.class), Mockito.isA(String.class));
         mvc.perform(MockMvcRequestBuilders.get("/discharge").param("patientsUsername", "test"))
                 .andExpect(MockMvcResultMatchers.status().is(302))
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/doctorPage"));

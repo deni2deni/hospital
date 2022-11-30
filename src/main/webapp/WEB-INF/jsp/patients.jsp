@@ -30,7 +30,7 @@
                             </div>
 
                         <div class="inner">
-                            <form action="<c:url value="/discharge"/>">
+                            <form action="<c:url value="/finalDiagnosis"/>">
                                 <input type="hidden" name="patientsUsername" value="${patient.username}">
                                 <input type="submit" onclick="return confirm('Are you sure?')" value="Do a discharge">
                             </form>

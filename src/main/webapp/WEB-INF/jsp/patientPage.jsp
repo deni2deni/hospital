@@ -1,7 +1,7 @@
 <%@include file="common/header.jsp"%>
     Welcome  ${user.name} <br>
     Your bill sum is:  ${sum} <br>
-    <c:if test="${user.status == 'NEW' }">
+    <c:if test="${user.status == 'NEW' || user.status == 'DISCHARGED' }">
         <form action="<c:url value="/moveToHospital"/> ">
             Currently, you aren't in hospital.
             <br>

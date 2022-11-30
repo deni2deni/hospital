@@ -114,14 +114,14 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     @Transactional
-    public void discharge(String username) {
+    public void discharge(String username, String diagnosisName) {
         var user = userRepository.findByUsername(username);
         user.setStatus(UserStatus.DISCHARGED.name());
         var journal = Journal.builder()
                 .date(new Timestamp(System.currentTimeMillis()).toInstant())
                 .patient(user)
                 .doctor(userRepository.findByUsername(securityUtil.getUsername()))
-                .diagnosis(diagnosisService.findByName("recovered"))
+                .diagnosis(diagnosisService.findByName(diagnosisName))
                 .treatmentStatus(ProcedureStatus.DISCHARGE.name())
                 .treatment(treatmentService.createDischarge())
                 .build();

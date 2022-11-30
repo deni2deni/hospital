@@ -1,5 +1,6 @@
 package com.academy.controller;
 
+import com.academy.service.DiagnosisService;
 import com.academy.service.JournalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProcedureController {
 
     private final JournalService journalService;
+    private final DiagnosisService diagnosisService;
 
     @GetMapping(value = "/procedure")
     public String doProcedure(@RequestParam Integer id, Model model) {
@@ -20,8 +22,16 @@ public class ProcedureController {
     }
 
     @GetMapping(value = "/discharge")
-    public String doDischarge(@RequestParam String patientsUsername){
-        journalService.discharge(patientsUsername);
+    public String doDischarge(@RequestParam String patientsUsername, @RequestParam String diagnosisName) {
+        journalService.discharge(patientsUsername, diagnosisName);
         return "redirect:/doctorPage";
+    }
+
+    @GetMapping(value = "/finalDiagnosis")
+    public String selectFinalDiagnosis(@RequestParam String patientsUsername, Model model) {
+        var diagnosis = diagnosisService.findAllDiagnosis();
+        model.addAttribute("patientsUsername", patientsUsername);
+        model.addAttribute("diagnosis", diagnosis);
+        return "finalDiagnosis";
     }
 }

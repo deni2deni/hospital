@@ -145,8 +145,8 @@ public class JournalServiceImplTest {
         Mockito.doReturn(diagnosis).when(diagnosisService).findByName(Mockito.isA(String.class));
         Mockito.doReturn(treatment).when(treatmentService).createDischarge();
         Mockito.doNothing().when(journalService).save(Mockito.isA(Journal.class));
-        journalService.discharge(journalCreateDto.getPatientsUsername());
-        Mockito.verify(journalService, Mockito.times(1)).discharge(Mockito.isA(String.class));
+        journalService.discharge(journalCreateDto.getPatientsUsername(), "test");
+        Mockito.verify(journalService, Mockito.times(1)).discharge(Mockito.isA(String.class), Mockito.isA(String.class));
     }
 
     @Test
