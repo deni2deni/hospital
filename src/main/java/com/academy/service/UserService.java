@@ -29,4 +29,6 @@ public interface UserService {
 
     List<UserDto> findAllByStatus(String status);
 
+    Integer getRestrictedLevel(String username);
+
 }

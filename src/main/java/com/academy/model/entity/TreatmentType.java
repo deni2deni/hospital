@@ -15,4 +15,6 @@ public class TreatmentType {
     private String name;
     @Column
     private Integer price;
+    @Column
+    private Integer restrictedLevel;
 }

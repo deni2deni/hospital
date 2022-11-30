@@ -7,4 +7,5 @@ public class TreatmentTypeDto {
     private Integer id;
     private String name;
     private Integer price;
+    private Integer restrictedLevel;
 }

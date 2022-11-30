@@ -90,7 +90,7 @@ public class JournalServiceImpl implements JournalService {
     @Transactional
     public void doProcedure(Integer id) {
         var journal = findById(id);
-        if (journal.getTreatment().getTreatmentType().getName().equalsIgnoreCase("surgeon") && securityUtil.hasRole(Role.ROLE_NURSE)){
+        if (journal.getTreatment().getTreatmentType().getRestrictedLevel() > userService.getRestrictedLevel(securityUtil.getUsername())){
             throw new ForbiddenProcedureException("Nurse can't do this procedure!");
         }
         var newJournal = mapToProcedure(journal);

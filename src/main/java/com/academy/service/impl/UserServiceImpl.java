@@ -109,4 +109,9 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Integer getRestrictedLevel(String username) {
+        return repository.findByUsername(username).getRoles().get(0).getRestrictedLevel();
+    }
 }
